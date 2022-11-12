@@ -35,24 +35,24 @@ public class GetAccessTokenContoller {
 	@GetMapping("/getAccessToken")
     @ResponseBody
 	public String getAccessToken() {
-		RestTemplate restTemplate = new RestTemplate();
-		String request = "grant_type=" + GRANT_TYPE;
+        RestTemplate restTemplate = new RestTemplate();
+        String request = "grant_type=" + GRANT_TYPE;
 		
-		String plainCreds = CLIENT_ID + ":" + CLIENT_SECRET;
-	    String userPassword = new String(Base64.getEncoder().encode(plainCreds.getBytes()));
-	    StringBuilder basicAuth = new StringBuilder();
-	    basicAuth.append("Basic ").append(userPassword);
-	    HttpHeaders headers = new HttpHeaders();
-	    headers.add("Authorization", basicAuth.toString());
-	    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        String plainCreds = CLIENT_ID + ":" + CLIENT_SECRET;
+        String userPassword = new String(Base64.getEncoder().encode(plainCreds.getBytes()));
+        StringBuilder basicAuth = new StringBuilder();
+        basicAuth.append("Basic ").append(userPassword);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", basicAuth.toString());
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		
-		String url = "https://bitbucket.org/site/oauth2/access_token";
-		HttpEntity<String> entity = new HttpEntity<String>(request, headers);
+        String url = "https://bitbucket.org/site/oauth2/access_token";
+        HttpEntity<String> entity = new HttpEntity<String>(request, headers);
 		
-		ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-		String body = response.getBody();
-		JSONObject jObject = new JSONObject(body);
-		String accessToken = jObject.getString("access_token");
-		return accessToken;
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+        String body = response.getBody();
+        JSONObject jObject = new JSONObject(body);
+        String accessToken = jObject.getString("access_token");
+        return accessToken;
 	}
 }
